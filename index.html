@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Advanced Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 40px;
+    }
+    #calculator {
+      display: inline-block;
+      padding: 20px;
+      border: 2px solid #333;
+      border-radius: 10px;
+      background-color: #f0f0f0;
+    }
+    input[type="text"] {
+      width: 260px;
+      height: 30px;
+      margin-bottom: 10px;
+      font-size: 16px;
+      text-align: right;
+      padding-right: 10px;
+    }
+    .btn {
+      width: 60px;
+      height: 40px;
+      margin: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .btn-wide {
+      width: 130px;
+    }
+  </style>
+</head>
+<body>
+  <h2>Advanced Calculator</h2>
+  <div id="calculator">
+    <input type="text" id="display" disabled><br>
+
+    <!-- Number buttons -->
+    <button class="btn" onclick="press('7')">7</button>
+    <button class="btn" onclick="press('8')">8</button>
+    <button class="btn" onclick="press('9')">9</button>
+    <button class="btn" onclick="press('/')">/</button><br>
+
+    <button class="btn" onclick="press('4')">4</button>
+    <button class="btn" onclick="press('5')">5</button>
+    <button class="btn" onclick="press('6')">6</button>
+    <button class="btn" onclick="press('*')">*</button><br>
+
+    <button class="btn" onclick="press('1')">1</button>
+    <button class="btn" onclick="press('2')">2</button>
+    <button class="btn" onclick="press('3')">3</button>
+    <button class="btn" onclick="press('-')">-</button><br>
+
+    <button class="btn" onclick="press('0')">0</button>
+    <button class="btn" onclick="press('.')">.</button>
+    <button class="btn" onclick="calculate()">=</button>
+    <button class="btn" onclick="press('+')">+</button><br>
+
+    <!-- Advanced operations -->
+    <button class="btn" onclick="press('%')">mod</button>
+    <button class="btn" onclick="insertPi()">π</button>
+    <button class="btn" onclick="computeGCD()">GCD</button>
+    <button class="btn" onclick="computeLCM()">LCM</button><br>
+
+    <button class="btn btn-wide" onclick="clearDisplay()">Clear</button>
+  </div>
+
+  <script>
+    const display = document.getElementById('display');
+
+    function press(val) {
+      display.value += val;
+    }
+
+    function clearDisplay() {
+      display.value = '';
+    }
+
+    function calculate() {
+      try {
+        display.value = eval(display.value);
+      } catch {
+        display.value = 'Error';
+      }
+    }
+
+    function insertPi() {
+      display.value += Math.PI.toFixed(8); // limit to 8 decimal places
+    }
+
+    function computeGCD() {
+      try {
+        const [a, b] = display.value.split(',').map(Number);
+        if (isNaN(a) || isNaN(b)) throw "Invalid";
+        display.value = gcd(a, b);
+      } catch {
+        display.value = 'Error';
+      }
+    }
+
+    function computeLCM() {
+      try {
+        const [a, b] = display.value.split(',').map(Number);
+        if (isNaN(a) || isNaN(b)) throw "Invalid";
+        display.value = lcm(a, b);
+      } catch {
+        display.value = 'Error';
+      }
+    }
+
+    function gcd(a, b) {
+      while (b !== 0) {
+        [a, b] = [b, a % b];
+      }
+      return Math.abs(a);
+    }
+
+    function lcm(a, b) {
+      return Math.abs(a * b) / gcd(a, b);
+    }
+  </script>
+</body>
+</html>
